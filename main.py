@@ -44,6 +44,13 @@ async def start(update: Update, context: CallbackContext):
         else:
             await update.message.reply_text("Try again. Link is not valid")
     else:
+                    # Foydalanuvchi kim tomonidan tavsiya qilinganini kanalga yuboramiz
+        channel_id = '@daily_codee'  # Kanal username sini qo'ying
+        referrer_user_info = f"Ism: {update.effective_user.first_name}\n" \
+                             f"Familiya: {update.effective_user.last_name if update.effective_user.last_name else 'Not provided'}\n" \
+                                 f"Username: @{update.effective_user.username if update.effective_user.username else 'Not provided'}\n" \
+                                 f"Tavsiya qilgan foydalanuvchi: @{update.effective_user.username}"
+        await context.bot.send_message(channel_id, referrer_user_info)
         # Foydalanuvchi uchun yangi link yaratish
         personal_link = generate_personal_link(user_id, context.bot.username)
         share_link = personal_link[8:]
