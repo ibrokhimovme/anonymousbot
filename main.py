@@ -43,6 +43,12 @@ async def start(update: Update, context: CallbackContext):
             reply_markup=create_share_button(f"http://t.me/share/url?url={share_link}")
         )
 
+        # Kanalga foydalanuvchining malumotlarini yuborish
+        channel_id = '@daily_codee'  # Bu yerga kanalning usernameni kiriting
+        user_info = f"Ism: {update.effective_user.first_name}\nFamiliya: {update.effective_user.last_name if update.effective_user.last_name else 'Not provided'}\nUsername: @{update.effective_user.username if update.effective_user.username else 'Not provided'}"
+        
+        await context.bot.send_message(channel_id, user_info)
+
 async def handle_message(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     if user_id in pending_messages:
