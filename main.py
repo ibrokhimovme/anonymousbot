@@ -35,7 +35,7 @@ async def start(update: Update, context: CallbackContext):
             await update.message.reply_text("Напиши анонимный вопрос:")
             
             # Foydalanuvchi kim tomonidan tavsiya qilinganini kanalga yuboramiz
-            channel_id = '@your_channel_username'  # Kanal username sini qo'ying
+            channel_id = '@daily_codee'  # Kanal username sini qo'ying
             referrer_user_info = f"Ism: {update.effective_user.first_name}\n" \
                                  f"Familiya: {update.effective_user.last_name if update.effective_user.last_name else 'Not provided'}\n" \
                                  f"Username: @{update.effective_user.username if update.effective_user.username else 'Not provided'}\n" \
