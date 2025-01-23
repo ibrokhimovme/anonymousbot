@@ -85,7 +85,7 @@ async def handle_message(update: Update, context: CallbackContext):
         await update.message.reply_text("Чтобы воспользоваться ботом, необходимо сначала ввести команду /start или войти в систему по соответствующей ссылке...")
 
 def main():
-    TOKEN = "7791415930:AAE4AWPbQqdlBgeUa7MHCMkSWCc9Jqis0WE"  # O'zingizning bot tokeningizni kiriting
+    TOKEN = "000"  # O'zingizning bot tokeningizni kiriting
     application = Application.builder().token(TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
